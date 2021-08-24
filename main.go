@@ -42,11 +42,11 @@ func main() {
 	if purge {
 		removeJob(clientSet)
 	} else {
-		spawnJob(clientSet)
+		spawnJob(clientSet, &imageName)
 	}
 }
 
-func spawnJob(client *kubernetes.Clientset) {
+func spawnJob(client *kubernetes.Clientset, imageName *string) {
 	metadata := &metav1.ObjectMeta{
 		Name:        "batch-job",
 		Namespace:   "default",
@@ -58,7 +58,7 @@ func spawnJob(client *kubernetes.Clientset) {
 		Containers: 	[]apiv1.Container {
 			{
 				Name:                     "batch-job",
-				Image:                    "luksa/batch-job",
+				Image:                    *imageName,
 				Command:                  []string{},
 				Args:                     []string{},
 			},
